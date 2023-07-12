@@ -56,4 +56,21 @@ describe Board do
       expect(game_board.column_is_full?(3)).to be false
     end
   end
+
+  describe '#winner?' do
+    it 'Runs column_winner?' do
+      expect(game_board).to receive(:column_winner?)
+      game_board.winner?
+    end
+
+    it 'Runs row_winner?' do
+      expect(game_board).to receive(:row_winner?)
+      game_board.winner?
+    end
+
+    it 'Runs diagonal_winner?' do
+      expect(game_board). to receive(:diagonal_winner?)
+      game_board.winner?
+    end
+  end
 end
