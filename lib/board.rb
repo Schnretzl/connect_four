@@ -1,7 +1,7 @@
 require_relative 'player'
 
 class Board
-  attr_reader :player1, :player2, :grid
+  attr_accessor :player1, :player2, :grid
 
   def initialize(player1, player2)
     @player1 = player1
@@ -52,26 +52,46 @@ class Board
   end
 
   def diagonal_winner?
-    2.times do |start_row|
-      3.times do |start_col|
-        diagonal = [
-          @grid[start_row][start_col..start_col + 3],
-          @grid[start_row + 1][start_col..start_col + 3],
-          @grid[start_row + 2][start_col..start_col + 3],
-          @grid[start_row + 3][start_col..start_col + 3]
-        ]
-        return true if diagonal.flatten.compact.uniq.length == 1
+    down_left_to_up_right? || down_right_to_up_left?
+  end
+
+  private
+
+  def down_left_to_up_right?
+    diagonal_array = []
+    3.times do |row|
+      4.times do |column|
+        diagonal_array << @grid[row][column] << @grid[row + 1][column + 1] << @grid[row + 2][column + 2] << @grid[row + 3][column + 3]
+        return true if diagonal_array.compact.length == 4 && diagonal_array.compact.uniq.length == 1
+
+        diagonal_array.clear
+      end
+    end
+
+    false
+  end
+
+  def down_right_to_up_left?
+    diagonal_array = []
+    3.times do |row|
+      6.downto(3) do |column|
+        diagonal_array << @grid[row][column] << @grid[row + 1][column - 1] << @grid[row + 2][column - 2] << @grid[row + 3][column - 3]
+        return true if diagonal_array.compact.length == 4 && diagonal_array.compact.uniq.length == 1
+
+        diagonal_array.clear
       end
     end
 
     false
   end
 end
-  # [
-  #   [0, 1, 2, 3, 4, 5, 6]
-  #   [0, 1, 2, 3, 4, 5, 6]
-  #   [0, 1, 2, 3, 4, 5, 6]
-  #   [0, 1, 2, 3, 4, 5, 6]
-  #   [0, 1, 2, 3, 4, 5, 6]
-  #   [0, 1, 2, 3, 4, 5, 6]
-  # ]
+
+
+# [
+#   0: [0, 1, 2, 3, 4, 5, 6]
+#   1: [0, 1, 2, 3, 4, 5, 6]
+#   2: [0, 1, 2, 3, 4, 5, 6]
+#   3: [0, 1, 2, 3, 4, 5, 6]
+#   4: [0, 1, 2, 3, 4, 5, 6]
+#   5: [0, 1, 2, 3, 4, 5, 6]
+# ]
