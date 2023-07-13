@@ -147,8 +147,9 @@ describe Board do
   end
 
   describe '#print_board' do
-    it 'Outputs 6 lines of text' do
-      expect(game_board.print_board).to receive(:puts).exactly(6).times
+    it 'Outputs 13 lines of text' do
+      expect(game_board).to receive(:puts).exactly(13).times
+      game_board.print_board
     end
   end
 end
