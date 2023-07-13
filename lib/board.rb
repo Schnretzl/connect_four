@@ -1,4 +1,5 @@
 require_relative 'player'
+require 'rainbow'
 
 class Board
   attr_accessor :player1, :player2, :grid
@@ -29,6 +30,20 @@ class Board
     column_win || row_win || diagonal_win
   end
 
+  def print_board
+    max_color_size = @grid.flatten.compact.map(&:size).max || 0
+    delimiter = "+" + ("-" * (max_color_size + 2) + "+") * @grid.first.length
+
+    puts delimiter
+    5.downto(0) do |row|
+      row_output = @grid[row].map do |item|
+        item.nil? ? " " * max_color_size : item.ljust(max_color_size)
+      end.join(" | ")
+      puts "| " + row_output + " |"
+      puts delimiter
+    end
+  end
+
   private
 
   def column_winner?
@@ -54,8 +69,6 @@ class Board
   def diagonal_winner?
     down_left_to_up_right? || down_right_to_up_left?
   end
-
-  private
 
   def down_left_to_up_right?
     diagonal_array = []
