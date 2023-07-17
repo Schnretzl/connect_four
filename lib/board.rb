@@ -13,7 +13,7 @@ class Board
   def add_token(column_number, color)
     empty_slot_index = @grid.transpose[column_number].find_index(nil)
     if column_is_full?(column_number)
-      puts 'Column number 0 is full, please play in another column'
+      puts "Column number #{column_number} is full, please play in another column"
     else
       @grid[empty_slot_index][column_number] = color
     end
