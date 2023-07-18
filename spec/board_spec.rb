@@ -1,32 +1,33 @@
 require_relative '../lib/board'
 
 describe Board do
-  let(:player1) { double('Player') }
-  let(:player2) { double('Player') }
+  let(:player1) { double('Player', color: 'black') }
+  let(:player2) { double('Player', color: 'red') }
 
   subject(:game_board) { described_class.new(player1, player2) }
   let(:grid) { game_board.instance_variable_get(:@grid) }
 
   describe '#add_token' do
     it 'Adds a black token to column 0' do
-      game_board.add_token(0, 'black')
+      game_board.add_token(0)
       expect(grid[0][0]).to eq 'black'
     end
 
     it 'Adds a red token on top' do
-      game_board.add_token(0, 'black')
-      game_board.add_token(0, 'red')
+      game_board.add_token(0)
+      game_board.current_player_turn = player2
+      game_board.add_token(0)
       expect(grid[1][0]).to eq 'red'
     end
 
     it 'Prints an error message if trying to play in a full column' do
-      game_board.add_token(0, 'black')
-      game_board.add_token(0, 'red')
-      game_board.add_token(0, 'black')
-      game_board.add_token(0, 'red')
-      game_board.add_token(0, 'black')
-      game_board.add_token(0, 'red')
-      expect{ game_board.add_token(0, 'black') }.to output("Column number 0 is full, please play in another column\n").to_stdout
+      game_board.add_token(0)
+      game_board.add_token(0)
+      game_board.add_token(0)
+      game_board.add_token(0)
+      game_board.add_token(0)
+      game_board.add_token(0)
+      expect{ game_board.add_token(0) }.to output("Column number 0 is full, please play in another column\n").to_stdout
     end
   end
 
@@ -158,4 +159,6 @@ describe Board do
       expect { game_board.change_current_player_turn }.to change { game_board.instance_variable_get(:@current_player_turn) }
     end
   end
+
+  # describe '#prompt_for'
 end
