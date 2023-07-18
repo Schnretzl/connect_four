@@ -2,20 +2,21 @@ require_relative 'player'
 require 'rainbow'
 
 class Board
-  attr_accessor :player1, :player2, :grid
+  attr_accessor :player1, :player2, :grid, :current_player_turn
 
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
     @grid = Array.new(6) { Array.new(7) }
+    @current_player_turn = @player1
   end
 
-  def add_token(column_number, color)
+  def add_token(column_number)
     empty_slot_index = @grid.transpose[column_number].find_index(nil)
     if column_is_full?(column_number)
       puts "Column number #{column_number} is full, please play in another column"
     else
-      @grid[empty_slot_index][column_number] = color
+      @grid[empty_slot_index][column_number] = @current_player_turn.color
     end
   end
 
@@ -42,6 +43,10 @@ class Board
       puts "| " + row_output + " |"
       puts delimiter
     end
+  end
+
+  def change_current_player_turn
+    @current_player_turn = @current_player_turn == @player1 ? @player2 : @player1
   end
 
   private
