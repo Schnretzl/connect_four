@@ -152,4 +152,10 @@ describe Board do
       game_board.print_board
     end
   end
+
+  describe '#change_current_player_turn' do
+    it 'Changes current player' do
+      expect { game_board.change_current_player_turn }.to change { game_board.instance_variable_get(:@current_player_turn) }
+    end
+  end
 end
