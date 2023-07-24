@@ -24,6 +24,10 @@ class Board
     @grid.transpose[column_number].none?(nil)
   end
 
+  def board_is_full?
+    @grid.flatten.none?(nil)
+  end
+
   def winner?
     column_win = column_winner?
     row_win = row_winner?
@@ -47,6 +51,20 @@ class Board
 
   def change_current_player_turn
     @current_player_turn = @current_player_turn == @player1 ? @player2 : @player1
+  end
+
+  def prompt_for_play_column
+    loop do
+      puts "#{current_player_turn.name}, which column would you like to play in?(1-7)"
+      column = STDIN.gets.chomp
+      if column_is_full?
+        puts "Column #{column} is full, please try another column."
+        next
+      end
+      return (column.to_i - 1) if column =~ /[1-7]/
+
+      puts 'Invalid column entered, please enter only a number in the range 1-7.'
+    end
   end
 
   private
