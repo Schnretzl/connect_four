@@ -21,6 +21,7 @@ class Board
   end
 
   def column_is_full?(column_number)
+    return nil if column_number < 0 || column_number > 6
     @grid.transpose[column_number].none?(nil)
   end
 
@@ -56,12 +57,12 @@ class Board
   def prompt_for_play_column
     loop do
       puts "#{current_player_turn.name}, which column would you like to play in?(1-7)"
-      column = STDIN.gets.chomp
-      if column_is_full?
+      column = STDIN.gets.chomp.to_i - 1
+      if column_is_full?(column)
         puts "Column #{column} is full, please try another column."
         next
       end
-      return (column.to_i - 1) if column =~ /[1-7]/
+      return column if column =~ /[1-7]/
 
       puts 'Invalid column entered, please enter only a number in the range 1-7.'
     end
