@@ -55,6 +55,21 @@ describe Board do
     end
   end
 
+  describe '#board_is_full?' do
+    it 'Returns false when the board is not full' do
+      game_board.instance_variable_get(:@grid).each do |row|
+        row.map! { nil }
+      end
+      expect(game_board.board_is_full?).to be false
+    end
+    it 'Returns true when the board is full' do
+      game_board.instance_variable_get(:@grid).each do |row|
+        row.map! { 'red' }
+      end
+      expect(game_board.board_is_full?).to be true
+    end
+  end
+
   describe '#winner?' do
     it 'Runs column_winner?' do
       expect(game_board).to receive(:column_winner?)
