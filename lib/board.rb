@@ -62,7 +62,7 @@ class Board
         puts "Column #{column} is full, please try another column."
         next
       end
-      return column if column =~ /[1-7]/
+      return column if column.to_s =~ /[0-6]/
 
       puts 'Invalid column entered, please enter only a number in the range 1-7.'
     end
