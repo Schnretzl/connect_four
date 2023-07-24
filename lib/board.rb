@@ -48,6 +48,10 @@ class Board
       puts "| " + row_output + " |"
       puts delimiter
     end
+
+    index_labels = (1..@grid.first.length).map { |num| num.to_s.ljust(max_color_size) }.join(" | ")
+    puts "| " + index_labels + " |"
+    puts delimiter
   end
 
   def change_current_player_turn
