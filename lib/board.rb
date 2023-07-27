@@ -22,6 +22,7 @@ class Board
 
   def column_is_full?(column_number)
     return nil if column_number < 0 || column_number > 6
+
     @grid.transpose[column_number].none?(nil)
   end
 
@@ -43,7 +44,14 @@ class Board
     puts delimiter
     5.downto(0) do |row|
       row_output = @grid[row].map do |item|
-        item.nil? ? " " * max_color_size : item.ljust(max_color_size)
+        if item.nil?
+          " " * max_color_size
+        else
+          # colored_item = Rainbow(item.ljust(max_color_size)).color(item.to_sym)
+          # Rainbow(colored_item).bg(color: item.to_sym)
+          colored_item = Rainbow(item.ljust(max_color_size)).background(item.to_sym)
+          colored_item
+        end
       end.join(" | ")
       puts "| " + row_output + " |"
       puts delimiter
@@ -73,7 +81,7 @@ class Board
   end
 
   def congratulate_winner
-    puts "Congratulations, #{@current_player_turn}!  You win!"
+    puts "Congratulations, #{@current_player_turn.name}!  You win!"
   end
 
   def print_game_draw
