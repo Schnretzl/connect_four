@@ -16,7 +16,7 @@ class Board
     if column_is_full?(column_number)
       puts "Column number #{column_number} is full, please play in another column"
     else
-      @grid[empty_slot_index][column_number] = @current_player_turn.color
+      @grid[empty_slot_index][column_number] = @current_player_turn.name
     end
   end
 
@@ -38,18 +38,18 @@ class Board
   end
 
   def print_board
-    max_color_size = [player1.color.length, player2.color.length].max || 0
-    delimiter = "+" + ("-" * (max_color_size + 2) + "+") * @grid.first.length
+    max_name_size = [player1.name.length, player2.name.length].max || 0
+    delimiter = "+" + ("-" * (max_name_size + 2) + "+") * @grid.first.length
 
     puts delimiter
     5.downto(0) do |row|
       row_output = @grid[row].map do |item|
         if item.nil?
-          " " * max_color_size
+          " " * max_name_size
         else
-          # colored_item = Rainbow(item.ljust(max_color_size)).color(item.to_sym)
-          # Rainbow(colored_item).bg(color: item.to_sym)
-          colored_item = Rainbow(item.ljust(max_color_size)).background(item.to_sym)
+          color = get_color_by_player_name(item)
+          colored_item = Rainbow(item.ljust(max_name_size)).background\
+            (color.to_sym)
           colored_item
         end
       end.join(" | ")
@@ -57,7 +57,7 @@ class Board
       puts delimiter
     end
 
-    index_labels = (1..@grid.first.length).map { |num| num.to_s.ljust(max_color_size) }.join(" | ")
+    index_labels = (1..@grid.first.length).map { |num| num.to_s.ljust(max_name_size) }.join(" | ")
     puts "| " + index_labels + " |"
     puts delimiter
   end
@@ -143,12 +143,6 @@ class Board
   end
 end
 
-
-# [
-#   0: [0, 1, 2, 3, 4, 5, 6]
-#   1: [0, 1, 2, 3, 4, 5, 6]
-#   2: [0, 1, 2, 3, 4, 5, 6]
-#   3: [0, 1, 2, 3, 4, 5, 6]
-#   4: [0, 1, 2, 3, 4, 5, 6]
-#   5: [0, 1, 2, 3, 4, 5, 6]
-# ]
+def get_color_by_player_name(player_name)
+  player1.name == player_name ? player1.color : player2.color
+end
