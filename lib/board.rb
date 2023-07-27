@@ -66,10 +66,18 @@ class Board
         puts "Column #{column} is full, please try another column."
         next
       end
-      return column if column.to_s =~ /[0-6]/
+      return column if (0..6).cover?(column)
 
       puts 'Invalid column entered, please enter only a number in the range 1-7.'
     end
+  end
+
+  def congratulate_winner
+    puts "Congratulations, #{@current_player_turn}!  You win!"
+  end
+
+  def print_game_draw
+    puts 'No moves left, game ends in a draw.'
   end
 
   private
