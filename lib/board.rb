@@ -37,7 +37,7 @@ class Board
   end
 
   def print_board
-    max_color_size = @grid.flatten.compact.map(&:size).max || 0
+    max_color_size = [player1.color.length, player2.color.length].max || 0
     delimiter = "+" + ("-" * (max_color_size + 2) + "+") * @grid.first.length
 
     puts delimiter
