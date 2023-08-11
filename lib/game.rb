@@ -1,18 +1,6 @@
 require_relative 'board'
 require_relative 'player'
 
-# player1 = Player.new('Wes', 'blue')
-# player2 = Player.new('Not Wes', 'red')
-# game_board = Board.new(player1, player2)
-
-# player1.play(game_board, 0)
-# player1.play(game_board, 0)
-# player2.play(game_board, 0)
-# player1.play(game_board, 3)
-# player2.play(game_board, 5)
-
-# game_board.print_board
-
 def input_valid_player_name(player_number)
   loop do
     puts "Enter player #{player_number} name:"
@@ -48,6 +36,7 @@ loop do
   game_board.print_board
   game_board.add_token(game_board.prompt_for_play_column)
   if game_board.winner?
+    game_board.print_board
     game_board.congratulate_winner
     break
   end
