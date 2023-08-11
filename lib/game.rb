@@ -14,7 +14,7 @@ end
 def input_valid_color(taken_colors = '')
   loop do
     puts 'What color do you want to play as?'
-    color = STDIN.gets.chomp
+    color = STDIN.gets.chomp.downcase
     if taken_colors.include?(color)
       puts "#{color.capitalize} has already been chosen, please pick another color."
     else
