@@ -1,8 +1,8 @@
 require_relative '../lib/board'
 
 describe Board do
-  let(:player1) { double('Player', color: 'black') }
-  let(:player2) { double('Player', color: 'red') }
+  let(:player1) { double('Player', color: 'black', name: 'John') }
+  let(:player2) { double('Player', color: 'red', name: 'Alice') }
 
   subject(:game_board) { described_class.new(player1, player2) }
   let(:grid) { game_board.instance_variable_get(:@grid) }
@@ -163,8 +163,8 @@ describe Board do
   end
 
   describe '#print_board' do
-    it 'Outputs 13 lines of text' do
-      expect(game_board).to receive(:puts).exactly(13).times
+    it 'Outputs 15 lines of text' do
+      expect(game_board).to receive(:puts).exactly(15).times
       game_board.print_board
     end
   end
@@ -175,5 +175,22 @@ describe Board do
     end
   end
 
-  # describe '#prompt_for'
+  describe '#prompt_for_play_column' do
+    before do
+      allow(game_board).to receive(:puts)
+    end
+    context 'When given valid input' do
+      it 'Returns the input number less one' do
+        allow(STDIN).to receive(:gets).and_return('3')
+        expect(game_board.prompt_for_play_column).to eq(2)
+      end
+    end
+    context 'When given invalid input' do
+      it 'Shows an error message for the first invalid input, then returns the second (valid) input' do
+        allow(STDIN).to receive(:gets).and_return('9', '3')
+        expect(STDOUT).to receive(:puts).with('Invalid column entered, please enter only a number in the range 1-7.').once
+        game_board.prompt_for_play_column
+      end
+    end
+  end
 end
